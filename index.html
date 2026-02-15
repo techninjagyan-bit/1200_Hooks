@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Ebook Download</title>
+
+<style>
+*{box-sizing:border-box;font-family:Poppins,Arial,sans-serif}
+
+body{
+margin:0;
+min-height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+padding:15px;
+background:linear-gradient(135deg,#667eea,#764ba2)
+}
+
+.box{
+width:100%;
+max-width:420px;
+background:#fff;
+border-radius:18px;
+padding:20px;
+box-shadow:0 20px 40px rgba(0,0,0,.25)
+}
+
+.cover{
+height:220px;
+border-radius:14px;
+background:#f1f1f1;
+display:flex;
+align-items:center;
+justify-content:center;
+color:#777;
+font-weight:600;
+margin-bottom:18px
+}
+
+h2{
+text-align:center;
+margin-bottom:16px;
+color:#333
+}
+
+input{
+width:100%;
+padding:14px;
+margin-bottom:12px;
+border-radius:10px;
+border:1px solid #ddd;
+font-size:15px
+}
+
+input:focus{
+outline:none;
+border-color:#667eea
+}
+
+.consent{
+display:flex;
+gap:8px;
+font-size:13px;
+color:#444;
+margin-bottom:18px
+}
+
+.consent input{
+width:18px;
+height:18px
+}
+
+button{
+width:100%;
+padding:15px;
+font-size:16px;
+border:none;
+border-radius:12px;
+background:linear-gradient(135deg,#ff512f,#dd2476);
+color:#fff;
+cursor:pointer;
+box-shadow:0 6px 0 #b91c4b;
+transition:.15s
+}
+
+button:active{
+transform:translateY(4px);
+box-shadow:0 2px 0 #b91c4b
+}
+
+.success{
+display:none;
+margin-top:12px;
+text-align:center;
+color:green;
+font-weight:600
+}
+
+.cover{
+height:220px;
+border-radius:14px;
+overflow:hidden;
+margin-bottom:18px
+}
+
+.cover img{
+width:100%;
+height:100%;
+object-fit:cover;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="box">
+
+<div class="cover">
+	<img 
+    src="https://lh3.googleusercontent.com/d/1Csp8sREAjQgMz0cKTJCJtc95up2hwmMw"
+    alt="Ebook Cover">
+</div>
+
+<h2>Download your free guide now</h2>
+
+<form id="leadForm">
+<input type="text" id="name" placeholder="Your Name" required>
+<input type="email" id="email" placeholder="Your Email" required>
+<input type="tel" id="phone" placeholder="WhatsApp Number" required>
+
+<div class="consent">
+<input type="checkbox" id="consent" required>
+<label for="consent">
+I agree to receive emails & WhatsApp messages for this ebook and future updates.
+</label>
+</div>
+
+<button type="submit">Download Now</button>
+</form>
+
+<div class="success" id="successMsg">
+✅ Submitted successfully!
+</div>
+
+</div>
+
+<script>
+const scriptURL="https://script.google.com/macros/s/AKfycbxelU2T1O29hXtl8JuodJD3rrlfuA4CIHYcyFeSuJrNc77Pr-sjZtc-2bc3Tyju3JTb/exec";
+const downloadURL="https://drive.google.com/uc?export=download&id=1ce_42VCP_BhFjXRFrTvwGPYpswDxKyUG";
+
+document.getElementById("leadForm").addEventListener("submit",function(e){
+e.preventDefault();
+
+let name=document.getElementById("name").value.trim();
+let email=document.getElementById("email").value.trim();
+let phone=document.getElementById("phone").value.trim();
+let consent=document.getElementById("consent").checked?"Yes":"No";
+
+let emailRegex=/^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+let phoneRegex=/^[6-9]\d{9}$/;
+
+if(!emailRegex.test(email)){
+alert("Enter a valid email address");
+return;
+}
+
+if(!phoneRegex.test(phone)){
+alert("Enter a valid 10 digit WhatsApp number");
+return;
+}
+
+fetch(scriptURL,{
+method:"POST",
+mode:"no-cors",
+body:new URLSearchParams({
+name:name,
+email:email,
+phone:phone,
+consent:consent
+})
+});
+
+document.getElementById("successMsg").style.display="block";
+document.getElementById("leadForm").reset();
+
+setTimeout(function(){
+window.location.href=downloadURL;
+},1000);
+
+
+});
+
+// Disable right click
+document.addEventListener("contextmenu", function(e) {
+  e.preventDefault();
+  return false;
+});
+
+// Disable common inspect & view-source shortcuts
+document.addEventListener("keydown", function(e) {
+
+  // F12
+  if (e.key === "F12") {
+    e.preventDefault();
+    return false;
+  }
+
+  // Ctrl+U (view source)
+  if (e.ctrlKey && e.key.toLowerCase() === "u") {
+    e.preventDefault();
+    return false;
+  }
+
+  // Ctrl+Shift+I / J / C (dev tools)
+  if (e.ctrlKey && e.shiftKey) {
+    const blockedKeys = ["i", "j", "c"];
+    if (blockedKeys.includes(e.key.toLowerCase())) {
+      e.preventDefault();
+      return false;
+    }
+  }
+});
+
+// Optional: disable text selection (copy drag)
+document.addEventListener("selectstart", function(e){
+  e.preventDefault();
+});
+</script>
+
+</body>
+</html>
